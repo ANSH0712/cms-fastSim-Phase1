@@ -30,7 +30,7 @@ TrackerMaterialBlock = cms.PSet(
             ########### Beam Pipe ###########
             #PIPE
             cms.PSet(
-                radius = cms.untracked.double(3.000),
+                radius = cms.untracked.double(2.9),
                 limits = cms.untracked.vdouble(0.0, 28.3),
                 thickness = cms.untracked.vdouble(0.0024),
                 interactionModels = _trackerMaterialInteractionModels
@@ -38,7 +38,7 @@ TrackerMaterialBlock = cms.PSet(
             ########### The Pixel Barrel layers 1-3 ###########
             #PIXB1
             cms.PSet(
-                radius = cms.untracked.double(3.001),
+                radius = cms.untracked.double(3.000),
                 limits = cms.untracked.vdouble(0.0, 28.391),
                 thickness = cms.untracked.vdouble(0.0217),
                 activeLayer = cms.untracked.string("BPix1"),

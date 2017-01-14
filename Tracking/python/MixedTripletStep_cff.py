@@ -7,7 +7,7 @@ from FastSimulation.Tracking.SeedingMigration import _hitSetProducerToFactoryPSe
 # fast tracking mask producer
 import FastSimulation.Tracking.FastTrackerRecHitMaskProducer_cfi
 mixedTripletStepMasks = FastSimulation.Tracking.FastTrackerRecHitMaskProducer_cfi.maskProducerFromClusterRemover(_standard.mixedTripletStepClusters)
-mixedTripletStepMasks.oldHitRemovalInfo = cms.InputTag("pixelPairStepMasks")
+mixedTripletStepMasks.oldHitRemovalInfo = cms.InputTag("detachedTripletStepMasks")
 
 # tracking regions
 mixedTripletStepTrackingRegionsA = _standard.mixedTripletStepTrackingRegionsA.clone()

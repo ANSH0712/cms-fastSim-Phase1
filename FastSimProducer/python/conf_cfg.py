@@ -2,10 +2,10 @@ import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
 
-process = cms.Process("DEMO",eras.Run2_2016,eras.fastSim)
+process = cms.Process("DEMO",eras.Run2_2017,eras.fastSim)
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10)
+    input = cms.untracked.int32(2000)
 )
 
 # load particle data table

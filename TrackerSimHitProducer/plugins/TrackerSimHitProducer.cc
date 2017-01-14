@@ -91,6 +91,7 @@ void fastsim::TrackerSimHitProducer::storeProducts(edm::Event & iEvent)
     double r2=0;
     for(auto shit : *(simHitContainer_.get())){
       r2 = std::pow(shit.localPosition().x(),2)+std::pow(shit.localPosition().y(),2);
+
       simHits->Fill(shit.localPosition().z(),std::sqrt(r2));
     }
   }
