@@ -1,10 +1,10 @@
 # How to install
 
 ```
-cmsrel CMSSW_8_2_0
-cd CMSSW_8_2_0/src
+cmsrel CMSSW_9_0_0_pre1
+cd CMSSW_9_0_0_pre1/src
 cmsenv
-git clone git@github.com:angirar/NewProducer.git FastSimulation
+git clone git@github.com:ANSH0712/cms-fastSim-Phase1.git FastSimulation
 USER_CXXFLAGS="-g -D=EDM_ML_DEBUG" scram b -j 8 # special flags to switch on debugging code
 ```
 
