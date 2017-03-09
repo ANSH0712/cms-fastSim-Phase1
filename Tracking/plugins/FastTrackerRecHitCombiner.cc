@@ -46,6 +46,7 @@ private:
   virtual void endStream() override{;}
   edm::Service<TFileService> FileService;
   TH2F* hitsZPerp;
+  TH2F* hitsXY;
   // ----------member data ---------------------------
   edm::EDGetTokenT<edm::PSimHitContainer> simHitsToken; 
   edm::EDGetTokenT<FastTrackerRecHitRefCollection> simHit2RecHitMapToken;
@@ -65,7 +66,7 @@ FastTrackerRecHitCombiner::FastTrackerRecHitCombiner(const edm::ParameterSet& iC
 {
   edm::Service<TFileService> fs;
   hitsZPerp = fs->make<TH2F>("simhitsZPerp","",1280,-320,320,520,0,130);
-  
+  hitsXY = fs->make<TH2F>("simhitsXY","",750,-130,130,750,-130,130);
     produces<FastTrackerRecHitCombinationCollection>();
 }
 /*void FastTrackerRecHitCombiner::beginstream()
@@ -121,6 +122,7 @@ void FastTrackerRecHitCombiner::produce(edm::Event& iEvent, const edm::EventSetu
     const GlobalPoint& globalPoint = theGeomDet->toGlobal(localPoint);
     //std::cout<<"Found global pos"<<std::endl;
     hitsZPerp->Fill(globalPoint.z(),std::sqrt(globalPoint.x()*globalPoint.x()+globalPoint.y()*globalPoint.y()));
+    hitsXY->Fill(globalPoint.x(),globalPoint.y());
 
     /*    simhitlayer=tTopo->layer(simHit.detUnitId());
     simhitsubdet=DetId(simHit.detUnitId()).subdetId();
