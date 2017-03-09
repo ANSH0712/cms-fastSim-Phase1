@@ -2,7 +2,12 @@
 #include <memory>
 #include <vector>
 #include <map>
-
+#include <TFile.h>
+#include <TROOT.h>
+#include <TH2.h>
+#include <iostream>
+#include <fstream>
+#include "FWCore/Framework/interface/MakerMacros.h"
 // framework
 #include "FWCore/Framework/interface/stream/EDProducer.h"
 #include "FWCore/Framework/interface/Event.h"
@@ -38,6 +43,9 @@
 #include "FastSimulation/Tracking/interface/FastTrackingUtilities.h"
 #include "FastSimulation/Tracking/interface/FastTrackerRecHitSplitter.h"
 #include "FastSimulation/Tracking/interface/SeedMatcher.h"
+#include "FWCore/ServiceRegistry/interface/Service.h"
+#include "CommonTools/UtilAlgos/interface/TFileService.h"
+
 
 class TrackCandidateProducer : public edm::stream::EDProducer <>
 {
@@ -55,6 +63,8 @@ private:
     edm::EDGetTokenT<std::vector<bool> > hitMasksToken;
     edm::EDGetTokenT<edm::SimTrackContainer> simTrackToken;
     std::string propagatorLabel;
+  edm::Service<TFileService> FileService;
+  TH2F* hitsrZ;
     
     // other data
     bool rejectOverlaps;
@@ -66,6 +76,8 @@ private:
 TrackCandidateProducer::TrackCandidateProducer(const edm::ParameterSet& conf)
     : hitSplitter()
 {  
+  edm::Service<TFileService> fs;
+  hitsrZ = fs->make<TH2F>("rechitsZPerp","",1280,-320,320,520,0,130);
     // produces
     produces<TrackCandidateCollection>();
     
@@ -179,6 +191,15 @@ TrackCandidateProducer::produce(edm::Event& e, const edm::EventSetup& es) {
 	    {
 
 		const FastTrackerRecHit * selectedRecHit = recHitCombination[hitIndex].get();
+		const LocalPoint& localPoint = selectedRecHit->localPosition();
+		std::cout<<"Found localpos"<<std::endl;                                                                             
+		const DetId& theDetId = selectedRecHit->geographicalId();
+		std::cout<<"Found det ID"<<std::endl;                                                                               
+		const GeomDet* theGeomDet = trackerGeometry->idToDet(theDetId);
+		std::cout<<"Found pointer to Geom det from ID"<<std::endl;                                                        
+		const GlobalPoint& globalPoint = theGeomDet->toGlobal(localPoint);
+		std::cout<<"Found global pos"<<std::endl;                                                                            
+		hitsrZ->Fill(globalPoint.z(),std::sqrt(globalPoint.x()*globalPoint.x()+globalPoint.y()*globalPoint.y()));
 
 		// skip seed hits
 		if(lastHitToSkip)
