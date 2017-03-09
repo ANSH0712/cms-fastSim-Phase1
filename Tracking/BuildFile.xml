@@ -16,6 +16,13 @@
 <use   name="RecoTracker/TkHitPairs"/>
 <use   name="RecoPixelVertexing/PixelTriplets"/>
 <use   name="RecoTracker/MeasurementDet"/>
+<use name="CommonTools/UtilAlgos"/>
+<use name="FWCore/Framework"/>
+<use name="FWCore/PluginManager"/>
+<use name="FWCore/ParameterSet"/>
+<use name="DataFormats/Common" />
+<use name="FWCore/Common" />
+
 <export>
   <lib   name="1"/>
 </export>

@@ -46,7 +46,8 @@
 
 // geometry
 #include "Geometry/Records/interface/TrackerTopologyRcd.h"
-
+#include "DataFormats/TrackerCommon/interface/TrackerTopology.h"
+#include "Geometry/TrackerGeometryBuilder/interface/TrackerGeometry.h"
 // fastsim
 #include "FastSimulation/Tracking/interface/SeedingTree.h"
 #include "FastSimulation/Tracking/interface/TrackingLayer.h"
@@ -155,7 +156,7 @@ void TrajectorySeedProducer::produce(edm::Event& e, const edm::EventSetup& es)
     edm::ESHandle<TrackerTopology> trackerTopology;
     
     es.get<TrackerTopologyRcd>().get(trackerTopology);
-    
+    //const TrackerTopology* const tTopo = trackerTopology.product();    
     // input data
     edm::Handle<FastTrackerRecHitCombinationCollection> recHitCombinations;
     e.getByToken(recHitCombinationsToken, recHitCombinations);
@@ -189,6 +190,11 @@ void TrajectorySeedProducer::produce(edm::Event& e, const edm::EventSetup& es)
 	seedFinder.addHitSelector(seedFinderSelector.get(),nHitsPerSeed_);
     }
 
+    /*    unsigned  int layerNo=0;
+    uint32_t subdet=0;
+    std::string det;
+    int z_pos=0;
+    */
     // loop over the combinations
     for ( unsigned icomb=0; icomb<recHitCombinations->size(); ++icomb)
     {
@@ -202,7 +208,29 @@ void TrajectorySeedProducer::produce(edm::Event& e, const edm::EventSetup& es)
             {
                 continue;
             }
-            seedHitCandidates.push_back(_hit.get());
+	    //if(_hit.get()->geographicalId().subdetId() == PixelSubdetector::PixelBarrel){
+	    /*	    layerNo=tTopo->layer(_hit.get()->geographicalId());
+	    subdet=_hit.get()->geographicalId().subdetId();
+	    if ( subdet == PixelSubdetector::PixelBarrel )
+	      det="PXB";
+	    if ( subdet == PixelSubdetector::PixelEndcap ){
+	      z_pos=tTopo->side(_hit.get()->geographicalId());
+	      det="PXD"; }
+	    if ( subdet == StripSubdetector::TIB )
+	      det="TIB";
+	    if ( subdet == StripSubdetector::TID ){
+	      z_pos=tTopo->side(_hit.get()->geographicalId());
+	      det="TID"; }
+	    if ( subdet == StripSubdetector::TOB )
+	      det="TOB";
+	    if ( subdet == StripSubdetector::TEC ){
+	      z_pos=tTopo->side(_hit.get()->geographicalId());
+	      det="TEC"; }
+
+	    	    if(det=="PXD"||det=="PXB")
+	      std::cout<<"DetLayer="<<det<<"\tLayerNo="<<layerNo<<"\tSide="<<z_pos<<std::endl;
+	    }*/
+	    seedHitCandidates.push_back(_hit.get());
         }
 
         // loop over the regions

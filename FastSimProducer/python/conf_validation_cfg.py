@@ -116,7 +116,7 @@ process.theMixObjects.mixVertices.input = cms.VInputTag(cms.InputTag("fastSimPro
 process.mixCollectionValidation.theMixObjects = cms.PSet(process.theMixObjects)
 
 process.mixSimHits.input = cms.VInputTag(cms.InputTag("fastSimProducer","MuonCSCHits"), cms.InputTag("fastSimProducer","MuonDTHits"), cms.InputTag("fastSimProducer","MuonRPCHits"), cms.InputTag("fastSimProducer","TrackerHits"))
-
+process.mixCaloHits.input = cms.VInputTag(cms.InputTag("fastSimProducer","EcalHitsEB"), cms.InputTag("fastSimProducer","EcalHitsEE"), cms.InputTag("fastSimProducer","EcalHitsES"), cms.InputTag("fastSimProducer","HcalHits"))
 process.theDigitizersValid.mergedtruth.simHitCollections = cms.PSet(
         muon = cms.VInputTag(cms.InputTag("fastSimProducer","MuonDTHits"), cms.InputTag("fastSimProducer","MuonCSCHits"), cms.InputTag("fastSimProducer","MuonRPCHits")),
         trackerAndPixel = cms.VInputTag(cms.InputTag("fastSimProducer","TrackerHits"))

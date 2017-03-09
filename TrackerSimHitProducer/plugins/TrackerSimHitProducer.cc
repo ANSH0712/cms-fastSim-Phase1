@@ -60,6 +60,7 @@ namespace fastsim
       virtual void registerProducts(edm::ProducerBase & producer) const override;
       virtual void storeProducts(edm::Event & iEvent) override;
       std::pair<double, PSimHit*> createHitOnDetector(const TrajectoryStateOnSurface & particle,int pdgId,int simTrackId,const GeomDet & detector, GlobalPoint & refPos);
+      //      GlobalPoint simHitsMeanPosition(const edm::PSimHitContainer& sim_hits) const;
     private:
       edm::Service<TFileService> FileService;
       const float onSurfaceTolerance_;
@@ -76,7 +77,7 @@ fastsim::TrackerSimHitProducer::TrackerSimHitProducer(const std::string & name,c
     , simHitContainer_(new edm::PSimHitContainer)
 {
   edm::Service<TFileService> fs;
-  simHits = fs->make<TH2F>("SimHits position","Position of Tracker SimHits on the detector layers",1000,-500,500,400,-200,200);
+  simHits = fs->make<TH2F>("SimHits_localgeom","Position of Tracker SimHits on the detector layers",1000,-500,500,400,-200,200);
 }
 
 void fastsim::TrackerSimHitProducer::registerProducts(edm::ProducerBase & producer) const
@@ -87,18 +88,18 @@ void fastsim::TrackerSimHitProducer::registerProducts(edm::ProducerBase & produc
 void fastsim::TrackerSimHitProducer::storeProducts(edm::Event & iEvent)
 {
     //std::cout << "Number of Hits: " << simHitContainer_->size() << std::endl;
-  if(simHitContainer_->size()>0){
+  /*  if(simHitContainer_->size()>0){
     double r2=0;
     for(auto shit : *(simHitContainer_.get())){
       r2 = std::pow(shit.localPosition().x(),2)+std::pow(shit.localPosition().y(),2);
-
       simHits->Fill(shit.localPosition().z(),std::sqrt(r2));
     }
-  }
-    //  std::cout<<shit.detUnitId()<<": "<<shit.localPosition().x()<<","<<shit.localPosition().y()<<std::endl;
-    //}
+    }*/
+  //  std::cout<<shit.detUnitId()<<": "<<shit.localPosition().x()<<","<<shit.localPosition().y()<<std::endl;
+  //}
     iEvent.put(std::move(simHitContainer_), "TrackerHits");
     simHitContainer_.reset(new edm::PSimHitContainer);
+
 }
 
 void fastsim::TrackerSimHitProducer::interact(Particle & particle,const Layer & layer,std::vector<std::unique_ptr<Particle> > & secondaries,const RandomEngineAndDistribution & random)
